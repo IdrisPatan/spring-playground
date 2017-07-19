@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/lessons")
-final class LessonController {
+final class LessonControllerMockDB {
 
     private final LessonRepository repository;
 
-    public LessonController(LessonRepository repository) {
+    public LessonControllerMockDB(LessonRepository repository) {
         this.repository = repository;
     }
 
@@ -38,6 +38,12 @@ final class LessonController {
         return repository.save(foundLesson);
     }
 
-    @DeleteMapping('/{idz')
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable final Long id) {
+        repository.delete(id);
+    }
+
+
+
 
 }

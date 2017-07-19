@@ -1,8 +1,6 @@
 package com.allstate.compozed.springplayground.lesson;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.*;
 
 /**
  * Created by localadmin on 7/18/17.
@@ -18,26 +16,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.result.RequestResultMatchers;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(LessonController.class)
-public class LessonControllerTest {
+@WebMvcTest(LessonControllerMockDB.class)
+public class LessonControllerMockDBTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -146,11 +140,9 @@ public class LessonControllerTest {
     @Test
     public void deleteOneLesson() throws Exception {
         LessonModel lesson = new LessonModel();
-        lesson.setId(new Long(99));
+        lesson.setId((99L));
         lesson.setTitle("Delete this lesson");
         Long id = lesson.getId();
-
-        when(repository.findOne(id)).thenReturn(lesson);
 
         MockHttpServletRequestBuilder request = delete("/lessons/{id}", id);
 
@@ -158,6 +150,14 @@ public class LessonControllerTest {
 
         resultActions.andExpect(status().isOk());
 
+        verify(this.repository).delete(id);
     }
+
+    // Delete when id does not exist
+//    @Test
+//    public void () attemptToDeleteLessonIfIdDoesNotExist() throws Exception {
+//
+//
+//    }
 
 }
