@@ -25,4 +25,19 @@ final class LessonController {
     Iterable<LessonModel> list() {
         return repository.findAll();
     }
+
+    @GetMapping("/{id}")
+    LessonModel read(@PathVariable final Long id) {
+        return repository.findOne(id);
+    }
+
+    @PutMapping("/{id}")
+    LessonModel update(@PathVariable final Long id, @RequestBody final LessonModel newLesson) {
+        LessonModel foundLesson = repository.findOne(id);
+        foundLesson.setTitle(newLesson.getTitle());
+        return repository.save(foundLesson);
+    }
+
+    @DeleteMapping('/{idz')
+
 }
